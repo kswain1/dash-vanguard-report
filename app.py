@@ -50,7 +50,7 @@ def get_logo():
     logo = html.Div([
 
         html.Div([
-            html.Img(src='http://logonoid.com/images/vanguard-logo.png', height='40', width='160')
+            html.Img(src='data:image/png;base64,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', height='40', width='140')
         ], className="ten columns padded"),
 
         html.Div([
@@ -66,7 +66,7 @@ def get_header():
 
         html.Div([
             html.H5(
-                'Vanguard 500 Index Fund Investor Shares')
+                'Ruby | State of the Art Insole Validator')
         ], className="twelve columns padded")
 
     ], className="row gs-header gs-text-header")
@@ -115,22 +115,21 @@ overview = html.Div([  # page 1
                     html.Br([]),
 
                     html.P("\
-                            As the industry’s first index fund for individual investors, \
-                            the 500 Index Fund is a low-cost way to gain diversified exposure \
-                            to the U.S. equity market. The fund offers exposure to 500 of the \
-                            largest U.S. companies, which span many different industries and \
-                            account for about three-fourths of the U.S. stock market’s value. \
-                            The key risk for the fund is the volatility that comes with its full \
-                            exposure to the stock market. Because the 500 Index Fund is broadly \
-                            diversified within the large-capitalization market, it may be \
-                            considered a core equity holding in a portfolio."),
+                            Von as the industry expert this software is developed, \
+                           to enable you to identify weak parameters and send data back, \
+                           to the correct stakeholders"),
 
                 ], className="six columns"),
 
                 html.Div([
-                    html.H6(["Fund Facts"],
+                    html.H6(["Foot Insole Parameters"],
                             className="gs-header gs-table-header padded"),
-                    html.Table(make_dash_table(df_fund_facts))
+                    html.Table(make_dash_table(df_fund_facts)),
+                    #dcc.Input(
+                        #id='dropdown-a',
+                         #options=[{'label': i, 'value': i} for i in ['Canada', 'USA', 'Mexico']],
+                        #value='0',
+                        #type ='text'),
                 ], className="six columns"),
 
             ], className="row "),
