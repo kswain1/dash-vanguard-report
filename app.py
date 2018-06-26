@@ -102,7 +102,7 @@ overview = html.Div([  # page 1
             get_logo(),
             get_header(),
             html.Br([]),
-            get_menu(),
+            #get_menu(),
 
             # Row 3
 
@@ -121,16 +121,27 @@ overview = html.Div([  # page 1
 
                 ], className="six columns"),
 
-                html.Div([
+                html.Div(children=([
                     html.H6(["Foot Insole Parameters"],
                             className="gs-header gs-table-header padded"),
-                    html.Table(make_dash_table(df_fund_facts)),
+                    #html.Table(make_dash_table(df_fund_facts)),
+                    html.H6(['ForeFoot Width']),
+                    dcc.Input(id='footWidth', value=0, type='text'),
+                    html.Div(id='footWidth-h'),
+                    
+                    #Forefoot Width Calculator
+                    html.H6(['Rear Foot Width']),
+                    dcc.Input(id='rearFootWidth', value=0, type='text'),
+                    html.H6(['First Metertarsel Length']),
+                    dcc.Input(id='dropdown-b', value=0, type='text'),
+                    
+
                     #dcc.Input(
                         #id='dropdown-a',
                          #options=[{'label': i, 'value': i} for i in ['Canada', 'USA', 'Mexico']],
                         #value='0',
                         #type ='text'),
-                ], className="six columns"),
+                ]), className="six columns"),
 
             ], className="row "),
 
@@ -471,6 +482,7 @@ overview = html.Div([  # page 1
         ], className="subpage")
 
     ], className="page")
+
 
 
 pricePerformance = html.Div([  # page 2
@@ -1277,9 +1289,11 @@ noPage = html.Div([  # 404
 
 
 # Describe the layout, or the UI, of the app
-app.layout = html.Div([
+app.layout = html.Div(children=[
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
+    html.Div(id='page-content'),
+    dcc.Input(id='footWidth'),
+    html.Div(id='footWidth-h')
 ])
 
 # Update page
@@ -1302,6 +1316,16 @@ def display_page(pathname):
         return overview,pricePerformance,portfolioManagement,feesMins,distributions,newsReviews
     else:
         return noPage
+
+ #forefoot response data
+@app.callback(
+    dash.dependencies.Output(component_id='footWidth-h', component_property='children'),
+    [dash.dependencies.Input('footWidth','value')]
+)
+def update_output_div(footWidth):
+    footWidth = int(footWidth) + 10
+    return 'You\'ve entered "{}"'.format(footWidth)
+ 
 
 
 external_css = ["https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css",
