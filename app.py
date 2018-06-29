@@ -66,7 +66,7 @@ def get_header():
 
         html.Div([
             html.H5(
-                'Ruby | State of the Art Insole Validator')
+                'Cutting Edge Insole Validation Software')
         ], className="twelve columns padded")
 
     ], className="row gs-header gs-text-header")
@@ -127,13 +127,13 @@ overview = html.Div([  # page 1
                     #html.Table(make_dash_table(df_fund_facts)),
                     html.H6(['ForeFoot Width']),
                     dcc.Input(id='footWidth', value=0, type='text'),
+                    html.Div(id='output-a'),
                     html.Div(id='footWidth-h'),
-                    
                     #Forefoot Width Calculator
-                    html.H6(['Rear Foot Width']),
-                    dcc.Input(id='rearFootWidth', value=0, type='text'),
-                    html.H6(['First Metertarsel Length']),
-                    dcc.Input(id='dropdown-b', value=0, type='text'),
+                    # html.H6(['Rear Foot Width']),
+                    # dcc.Input(id='rearFootWidth', value=0, type='text'),
+                    # html.H6(['First Metertarsel Length']),
+                    # dcc.Input(id='dropdown-b', value=0, type='text'),
                     
 
                     #dcc.Input(
@@ -150,8 +150,9 @@ overview = html.Div([  # page 1
             html.Div([
 
                 html.Div([
-                    html.H6('Average annual performance',
+                    html.H6('Foot Insole Parameters',
                             className="gs-header gs-text-header padded"),
+                    html.H3("hello"),
                     dcc.Graph(
                         id = "graph-1",
                         figure={
@@ -232,7 +233,7 @@ overview = html.Div([  # page 1
                 ], className="six columns"),
 
                 html.Div([
-                    html.H6("Hypothetical growth of $10,000",
+                    html.H6("Rear Foot Width",
                             className="gs-header gs-table-header padded"),
                     dcc.Graph(
                         id="grpah-2",
@@ -1293,7 +1294,9 @@ app.layout = html.Div(children=[
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content'),
     dcc.Input(id='footWidth'),
-    html.Div(id='footWidth-h')
+    html.Div(id='footWidth-h'),
+    html.Div(id='output-a'),
+
 ])
 
 # Update page
@@ -1322,9 +1325,51 @@ def display_page(pathname):
     dash.dependencies.Output(component_id='footWidth-h', component_property='children'),
     [dash.dependencies.Input('footWidth','value')]
 )
+
 def update_output_div(footWidth):
     footWidth = int(footWidth) + 10
     return 'You\'ve entered "{}"'.format(footWidth)
+
+#forefoot bargraph data response 
+@app.callback(
+  dash.dependencies.Output('output-a','children'),
+  [dash.dependencies.Input('footWidth','value')]
+  )
+def callback(foot_value):
+  foot_value = int(foot_value)
+
+  #Base
+  trace1 = go.Bar(
+    y = ['validation','Foot Meta.'],
+    x = [4,0],
+    name='Correct Plot',
+    orientation='h',
+    marker = dict(
+      color = 'rgba(1,1,1,0)',
+      )
+    )
+
+  #Input Data
+  trace2 = go.Bar(
+    y = ['validation','Foot Meta.'],
+    x = [3,foot_value],
+    name='Data plot',
+    orientation = 'h',
+    marker = dict(
+      color = 'rgba(50, 171, 96, 0.7)'
+      )
+    )
+  layout = go.Layout(barmode='stack',autosize='False',
+    height=200,width=350, margin = {"r": 10, "t": 25, "b": 30,"l": 80},
+    bargap = 0.35,title="Foot Validation")
+  traces = [trace1,trace2]
+  return dcc.Graph(
+    id='h-bar',
+    figure={
+    'data':traces,
+    'layout':layout,
+    }
+    )
  
 
 
