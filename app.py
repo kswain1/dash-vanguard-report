@@ -102,24 +102,25 @@ overview = html.Div([  # page 1
             get_logo(),
             get_header(),
             html.Br([]),
-            #get_menu(),
+            get_menu(),
 
             # Row 3
 
             html.Div([
 
-                html.Div([
-                    html.H6('Product Summary',
+                html.Div(children=([
+                    html.H6('Arch  Height ',
                             className="gs-header gs-text-header padded"),
 
                     html.Br([]),
+                    dcc.Input(id='archheight',value=5, type='text'),
+                    html.Div(id='output-b'),
+                    html.Div(id='arch-height-h')
 
-                    html.P("\
-                            Von as the industry expert this software is developed, \
-                           to enable you to identify weak parameters and send data back, \
-                           to the correct stakeholders"),
 
-                ], className="six columns"),
+
+
+                ]), className="twelve columns"),
 
                 html.Div(children=([
                     html.H6(["Foot Insole Parameters"],
@@ -150,86 +151,11 @@ overview = html.Div([  # page 1
             html.Div([
 
                 html.Div([
-                    html.H6('Foot Insole Parameters',
+                    html.H6('Rear Foot Width',
                             className="gs-header gs-text-header padded"),
                     html.H3("hello"),
-                    dcc.Graph(
-                        id = "graph-1",
-                        figure={
-                            'data': [
-                                go.Bar(
-                                    x = ["1 Year", "3 Year", "5 Year", "10 Year", "41 Year"],
-                                    y = ["21.67", "11.26", "15.62", "8.37", "11.11"],
-                                    marker = {
-                                      "color": "rgb(53, 83, 255)",
-                                      "line": {
-                                        "color": "rgb(255, 255, 255)",
-                                        "width": 2
-                                      }
-                                    },
-                                    name = "500 Index Fund",
-                                    type = "bar"
-                                ),
-                                go.Bar(
-                                    x = ["1 Year", "3 Year", "5 Year", "10 Year", "41 Year"],
-                                    y = ["21.83", "11.41", "15.79", "8.50"],
-                                    marker = {
-                                      "color": "rgb(255, 225, 53)",
-                                      "line": {
-                                        "color": "rgb(255, 255, 255)",
-                                        "width": 2
-                                        }
-                                    },
-                                    name = "S&P 500 Index",
-                                    type = "bar"
-                                ),
-                            ],
-                            'layout': go.Layout(
-                                autosize = False,
-                                bargap = 0.35,
-                                font = {
-                                  "family": "Raleway",
-                                  "size": 10
-                                },
-                                height = 200,
-                                hovermode = "closest",
-                                legend = {
-                                  "x": -0.0228945952895,
-                                  "y": -0.189563896463,
-                                  "orientation": "h",
-                                  "yanchor": "top"
-                                },
-                                margin = {
-                                  "r": 0,
-                                  "t": 20,
-                                  "b": 10,
-                                  "l": 10
-                                },
-                                showlegend = True,
-                                title = "",
-                                width = 340,
-                                xaxis = {
-                                  "autorange": True,
-                                  "range": [-0.5, 4.5],
-                                  "showline": True,
-                                  "title": "",
-                                  "type": "category"
-                                },
-                                yaxis = {
-                                  "autorange": True,
-                                  "range": [0, 22.9789473684],
-                                  "showgrid": True,
-                                  "showline": True,
-                                  "title": "",
-                                  "type": "linear",
-                                  "zeroline": False
-                                }
-                            )
-                        },
-                        config={
-                            'displayModeBar': False
-                        }
-                    )
+                    html.Div(id='output-b'),
+                   
                 ], className="six columns"),
 
                 html.Div([
@@ -1294,8 +1220,12 @@ app.layout = html.Div(children=[
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content'),
     dcc.Input(id='footWidth'),
+    dcc.Input(id='archheight'),
     html.Div(id='footWidth-h'),
     html.Div(id='output-a'),
+    html.Div(id='output-b'),
+    html.Div(id='arch-height-h')
+
 
 ])
 
@@ -1329,6 +1259,53 @@ def display_page(pathname):
 def update_output_div(footWidth):
     footWidth = int(footWidth) + 10
     return 'You\'ve entered "{}"'.format(footWidth)
+
+lowerBound,upperBound = 6,10
+ #forefoot response data
+@app.callback(
+    dash.dependencies.Output(component_id='arch-height-h', component_property='children'),
+    [dash.dependencies.Input('archheight','value')]
+)
+def update_output_div(archheight):
+    footWidth = int(archheight)
+    
+    if footWidth < lowerBound: 
+      color = 'rgba(255,0,0,1)'
+    elif footWidth > upperBound: 
+      color = 'rgba(255,0,0,1)'
+    else: 
+      color = 'rgba(50,171,96,0.7)' 
+
+    print(footWidth)
+    trace1 = go.Bar(
+      y = ['Certification','Arch Height'],
+      x = [lowerBound,0],
+      name = 'Correct Plot',
+      orientation = 'h',
+      marker = dict(
+        color = 'rgba(1,1,1,0)'
+        )
+      )
+
+    trace2 = go.Bar(
+      y=['Certification','Arch Height'],
+      x=[upperBound,footWidth],
+      orientation = 'h',
+      marker = dict(
+        color = color 
+        )
+      )
+    layout = go.Layout(barmode='stack')
+    traces = [trace1,trace2]
+    return dcc.Graph(
+      id = 's-bar',
+      figure={
+      'data':traces, 
+      'layout':layout,
+      }
+      )
+    #return 'You\'ve entered "{}"'.format(footWidth)
+
 
 #forefoot bargraph data response 
 @app.callback(
@@ -1370,7 +1347,48 @@ def callback(foot_value):
     'layout':layout,
     }
     )
- 
+
+  @app.callback(
+    dash.dependencies.Output('output-b','children'),
+    [dash.dependencies.Input('arch-height','value')]
+    )
+  def callback_b(foot_value):
+    foot_value = int(foot_value)
+    print(foot_value)
+
+    #Base
+    trace1 = go.Bar(
+      y = ['validation','Foot Meta.'],
+      x = [4,0],
+      name='Correct Plot',
+      orientation='h',
+      marker = dict(
+        color = 'rgba(1,1,1,0)',
+        )
+      )
+
+    #Input Data
+    trace2 = go.Bar(
+      y = ['validation','Foot Meta.'],
+      x = [3,foot_value],
+      name='Data plot',
+      orientation = 'h',
+      marker = dict(
+        color = 'rgba(50, 171, 96, 0.7)'
+        )
+      )
+    layout = go.Layout(barmode='stack',autosize='False',
+      height=200,width=350, margin = {"r": 10, "t": 25, "b": 30,"l": 80},
+      bargap = 0.35,title="Foot Validation")
+    traces = [trace1,trace2]
+
+    return dcc.Graph(
+      id='arch-height-bar',
+      figure={
+      'data':traces,
+      'layout':layout,
+      }
+      )
 
 
 external_css = ["https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css",
