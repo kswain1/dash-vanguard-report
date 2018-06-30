@@ -115,7 +115,8 @@ overview = html.Div([  # page 1
                     html.Br([]),
                     dcc.Input(id='archheight',value=5, type='text'),
                     html.Div(id='output-b'),
-                    html.Div(id='arch-height-h')
+                    html.Div(id='arch-height-h'),
+                    html.Div(id='footWidth-h')
 
 
 
@@ -968,15 +969,6 @@ def display_page(pathname):
     else:
         return noPage
 
- #forefoot response data
-@app.callback(
-    dash.dependencies.Output(component_id='footWidth-h', component_property='children'),
-    [dash.dependencies.Input('footWidth','value')]
-)
-
-def update_output_div(footWidth):
-    footWidth = int(footWidth) + 10
-    return 'You\'ve entered "{}"'.format(footWidth)
 
 lowerBound,upperBound = 6,10
  #forefoot response data
@@ -1024,6 +1016,25 @@ def update_output_div(archheight):
       )
     #return 'You\'ve entered "{}"'.format(footWidth)
 
+ #forefoot response data
+@app.callback(
+    dash.dependencies.Output(component_id='footWidth-h', component_property='children'),
+    [dash.dependencies.Input('archheight','value')]
+)
+
+def update_output_div(footWidth):
+    footWidth = int(footWidth)
+    difference = 0 
+
+    if footWidth < lowerBound: 
+      difference = footWidth - lowerBound
+      return "You need to add ", upperBound, " to foot parameter"
+    elif footWidth > upperBound: 
+      difference = footWidth - upperBound
+      return "You need to reduce ", lowerBound, " to foot parameter"
+    else: 
+      return 'Your foot parameter is valid!'
+    #return 'You\'ve entered "{}"'.format(difference)
 
 #forefoot bargraph data response 
 @app.callback(
