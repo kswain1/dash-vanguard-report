@@ -1001,11 +1001,12 @@ def update_output_div(archheight):
       y=['Certification','Arch Height'],
       x=[upperBound,footWidth],
       orientation = 'h',
+      name = 'Arch Height',
       marker = dict(
         color = color 
         )
       )
-    layout = go.Layout(barmode='stack')
+    layout = go.Layout(barmode='stack', title="Ruby Certification | Arch Height")
     traces = [trace1,trace2]
     return dcc.Graph(
       id = 's-bar',
@@ -1027,11 +1028,11 @@ def update_output_div(footWidth):
     difference = 0 
 
     if footWidth < lowerBound: 
-      difference = footWidth - lowerBound
-      return "You need to add ", upperBound, " to foot parameter"
+      difference = lowerBound - footWidth
+      return "You need to add ", difference, " to foot parameter"
     elif footWidth > upperBound: 
-      difference = footWidth - upperBound
-      return "You need to reduce ", lowerBound, " to foot parameter"
+      difference = upperBound - footWidth
+      return "You need to reduce ", difference, " to foot parameter"
     else: 
       return 'Your foot parameter is valid!'
     #return 'You\'ve entered "{}"'.format(difference)
