@@ -114,7 +114,6 @@ overview = html.Div([  # page 1
 
                     html.Br([]),
                     dcc.Input(id='archheight',value=5, type='text'),
-                    html.Div(id='output-b'),
                     html.Div(id='arch-height-h'),
                     html.Div(id='footWidth-h')
 
@@ -143,153 +142,17 @@ pricePerformance = html.Div([  # page 2
             html.Br([]),
             get_menu(),
 
-            # Row ``
+            # Row `1`
 
             html.Div([
 
                 html.Div([
-                    html.H6(["Current Prices"],
-                            className="gs-header gs-table-header padded"),
-                    html.Table(make_dash_table(df_current_prices))
+                    html.H6("Foot Width"),
+                    html.Div(id='output-b'),
+                    dcc.Input(id='footInput',value=0,type='text'),
+                    html.Div(id='foot-width-bar'),
 
-                ], className="six columns"),
-
-                html.Div([
-                    html.H6(["Historical Prices"],
-                            className="gs-header gs-table-header padded"),
-                    html.Table(make_dash_table(df_hist_prices))
-                ], className="six columns"),
-
-            ], className="row "),
-
-            # Row 2
-
-            html.Div([
-
-                html.Div([
-                    html.H6("Performance",
-                            className="gs-header gs-table-header padded"),
-                    dcc.Graph(
-                        id='graph-4',
-                        figure={
-                            'data': [
-                                go.Scatter(
-                                    x = df_graph['Date'],
-                                    y = df_graph['Vanguard 500 Index Fund'],
-                                    line = {"color": "rgb(53, 83, 255)"},
-                                    mode = "lines",
-                                    name = "Vanguard 500 Index Fund"
-                                ),
-                                go.Scatter(
-                                    x = df_graph['Date'],
-                                    y = df_graph['MSCI EAFE Index Fund (ETF)'],
-                                    line = {"color": "rgb(255, 225, 53)"},
-                                    mode = "lines",
-                                    name = "MSCI EAFE Index Fund (ETF)"
-                                )
-                            ],
-                            'layout': go.Layout(
-                                autosize = False,
-                                width = 700,
-                                height = 200,
-                                font = {
-                                    "family": "Raleway",
-                                    "size": 10
-                                  },
-                                 margin = {
-                                    "r": 40,
-                                    "t": 40,
-                                    "b": 30,
-                                    "l": 40
-                                  },
-                                  showlegend = True,
-                                  titlefont = {
-                                    "family": "Raleway",
-                                    "size": 10
-                                  },
-                                  xaxis = {
-                                    "autorange": True,
-                                    "range": ["2007-12-31", "2018-03-06"],
-                                    "rangeselector": {"buttons": [
-                                        {
-                                          "count": 1,
-                                          "label": "1Y",
-                                          "step": "year",
-                                          "stepmode": "backward"
-                                        },
-                                        {
-                                          "count": 3,
-                                          "label": "3Y",
-                                          "step": "year",
-                                          "stepmode": "backward"
-                                        },
-                                        {
-                                          "count": 5,
-                                          "label": "5Y",
-                                          "step": "year"
-                                        },
-                                        {
-                                          "count": 10,
-                                          "label": "10Y",
-                                          "step": "year",
-                                          "stepmode": "backward"
-                                        },
-                                        {
-                                          "label": "All",
-                                          "step": "all"
-                                        }
-                                      ]},
-                                    "showline": True,
-                                    "type": "date",
-                                    "zeroline": False
-                                  },
-                                  yaxis = {
-                                    "autorange": True,
-                                    "range": [18.6880162434, 278.431996757],
-                                    "showline": True,
-                                    "type": "linear",
-                                    "zeroline": False
-                                  }
-                            )
-                        },
-                        config={
-                            'displayModeBar': False
-                        }
-                    )
-                ], className="twelve columns")
-
-            ], className="row "),
-
-            # Row 3
-
-            html.Div([
-
-                html.Div([
-                    html.H6(["Average annual returns--updated monthly as of 02/28/2018"], className="gs-header gs-table-header tiny-header"),
-                    html.Table(make_dash_table(df_avg_returns), className="tiny-header")
-                ], className=" twelve columns"),
-
-            ], className="row "),
-
-            # Row 4
-
-            html.Div([
-
-                html.Div([
-                    html.H6(["After-tax returns--updated quarterly as of 12/31/2017"], className="gs-header gs-table-header tiny-header"),
-                    html.Table(make_dash_table(df_after_tax), className="tiny-header")
-                ], className=" twelve columns"),
-
-            ], className="row "),
-
-            # Row 5
-
-            html.Div([
-
-                html.Div([
-                    html.H6(["Recent investment returns"], className="gs-header gs-table-header tiny-header"),
-                    html.Table(make_dash_table(df_recent_returns), className="tiny-header")
-                ], className=" twelve columns"),
+                ], className="twelve columns"),
 
             ], className="row "),
 
@@ -940,10 +803,14 @@ app.layout = html.Div(children=[
     html.Div(id='page-content'),
     dcc.Input(id='footWidth'),
     dcc.Input(id='archheight'),
+    dcc.Input(id='footInput'),
     html.Div(id='footWidth-h'),
     html.Div(id='output-a'),
     html.Div(id='output-b'),
-    html.Div(id='arch-height-h')
+    html.Div(id='arch-height-h'),
+    html.Div(id='foot-width-bar'),
+    
+
 
 
 ])
@@ -971,6 +838,51 @@ def display_page(pathname):
 
 
 lowerBound,upperBound = 6,10
+#Footwidth response data
+@app.callback(
+  dash.dependencies.Output(component_id='foot-width-bar',component_property='children'),
+  [dash.dependencies.Input('footInput','value')]
+  )
+def update_output_div(archheight):
+    footWidth = int(archheight)
+    
+    if footWidth < lowerBound: 
+      color = 'rgba(255,0,0,1)'
+    elif footWidth > upperBound: 
+      color = 'rgba(255,0,0,1)'
+    else: 
+      color = 'rgba(50,171,96,0.7)' 
+
+    print(footWidth)
+    trace1 = go.Bar(
+      y = ['Certification','Foot Width'],
+      x = [lowerBound,0],
+      name = 'Correct Plot',
+      orientation = 'h',
+      marker = dict(
+        color = 'rgba(1,1,1,0)'
+        )
+      )
+
+    trace2 = go.Bar(
+      y=['Certification','Foot Width'],
+      x=[upperBound,footWidth],
+      orientation = 'h',
+      name = 'Foot Width',
+      marker = dict(
+        color = color 
+        )
+      )
+    layout = go.Layout(barmode='stack', title="Ruby Certification | Foot Width")
+    traces = [trace1,trace2]
+    return dcc.Graph(
+      id = 's-bar',
+      figure={
+      'data':traces, 
+      'layout':layout,
+      }
+      )
+
  #forefoot response data
 @app.callback(
     dash.dependencies.Output(component_id='arch-height-h', component_property='children'),
@@ -1079,8 +991,7 @@ def callback(foot_value):
     )
 
   @app.callback(
-    dash.dependencies.Output('output-b','children'),
-    [dash.dependencies.Input('arch-height','value')]
+    dash.dependencies.Output('output-b','children')
     )
   def callback_b(foot_value):
     foot_value = int(foot_value)
@@ -1096,27 +1007,11 @@ def callback(foot_value):
         color = 'rgba(1,1,1,0)',
         )
       )
-
-    #Input Data
-    trace2 = go.Bar(
-      y = ['validation','Foot Meta.'],
-      x = [3,foot_value],
-      name='Data plot',
-      orientation = 'h',
-      marker = dict(
-        color = 'rgba(50, 171, 96, 0.7)'
-        )
-      )
-    layout = go.Layout(barmode='stack',autosize='False',
-      height=200,width=350, margin = {"r": 10, "t": 25, "b": 30,"l": 80},
-      bargap = 0.35,title="Foot Validation")
-    traces = [trace1,trace2]
-
+    trace = [trace1]
     return dcc.Graph(
-      id='arch-height-bar',
+      id = 'footWidth-bar',
       figure={
-      'data':traces,
-      'layout':layout,
+      'data':traces
       }
       )
 
