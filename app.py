@@ -29,29 +29,38 @@ app.layout = html.Div([
         value='0',
         type ='text'),
     html.Div(id='output-a'),
+    html.Div(" ------------------------------------ "),
 
-    html.Label(" Foot Metarsel Validator  "),
+    html.Label(" Rear Foot Width  "),
     dcc.Input(
         id='dropdown-b',
         value='0',
         type='text'
     ),
     html.Div(id='output-b'),
+    html.Div(" ------------------------------------ "),
 
+
+    html.Label(" First Metatarsel Length  "),
      dcc.Input(
         id='dropdown-c',
         value='0',
         type='text'
     ),
     html.Div(id='output-c'),
+    html.Div(" --------------------------------------- "), 
+
+    html.Label(" Fifth Metarsel Length "),
 
      dcc.Input(
         id='dropdown-d',
         value='0',
         type='text'
     ),
-    html.Div(id='bar-graph'),
     html.Div(id='output-d'),
+    html.Div(" --------------------------------------- "), 
+
+    html.Label(" Arch Height "),
 
      dcc.Input(
         id='dropdown-e',
@@ -59,37 +68,16 @@ app.layout = html.Div([
         type='text'
     ),
     html.Div(id='output-e'),
+    html.Div(" --------------------------------------- "), 
 
-     dcc.Input(
+    html.Label(" Foot length "),
+    dcc.Input(
         id='dropdown-f',
-        value='MTL',
+        value='0',
         type='text'
     ),
     html.Div(id='output-f'),
-    dcc.Graph(id='test-subject',
-        figure={
-            'data': [
-                {'x': [1, 2, 3, 4, 5], 'y': [9, 6, 2, 1, 5], 'type': 'line', 'name': 'Boats'},
-                {'x': [1, 2, 3, 4, 5], 'y': [8, 7, 2, 7, 3], 'type': 'bar', 'name': 'Cars'},
-            ],
-            'layout': {
-                'title': 'Basic Dash Example'
-            }
-        }
-        ),
-    dcc.Graph(id='example',
-        figure={
-        'data':[
-        {'x':[1,2,3,4,5],'y':[9,2,3,1,3],'orientation':'h', 'type':'bar', 'name':'cars'}
-        ],
-        'layout':{
-        'title':'Basic Kehlin Swain Example'
-        }
-        }),
-
-    dcc.Graph(id='blam')
-
-], style={'width': '100%',})
+    ], style={'width': '100%',})
 upperBound = 10
 lowerBound = 5
 
@@ -119,11 +107,11 @@ def callback_a(dropdown_value):
              difference = lowerBound - float(dropdown_value)
              print("data is lower")
              print(difference)
-             return 'Your Foot Length Add by"{}"'.format(difference)
+             return 'Foot Metarsel Add by"{}"'.format(difference)
         if float(dropdown_value) > upperBound:
             difference = upperBound - float(dropdown_value)
             print("data is higher")
-            return 'Your Foot Length Reduce by"{}"'.format(difference)
+            return 'Foot Metarsel Reduce by"{}"'.format(difference)
     print("data is validated")
     return 'Your Measurement is Validate'
 
@@ -140,11 +128,11 @@ def callback_b(dropdown_value):
              difference = lowerBound - float(dropdown_value)
              print("data is lower")
              print(difference)
-             return 'Your Foot Length Add by"{}"'.format(difference)
+             return 'Rear Foot Width Add by"{}"'.format(difference)
         if float(dropdown_value) > upperBound:
             difference = upperBound - float(dropdown_value)
             print("data is higher")
-            return 'Your Foot Length Reduce by"{}"'.format(difference)
+            return 'Rear Foot Width Reduce by"{}"'.format(difference)
     print("data is validated")
     return 'Your Measurement is Validate'
 
@@ -159,11 +147,11 @@ def callback_c(dropdown_value):
              difference = lowerBound - float(dropdown_value)
              print("data is lower")
              print(difference)
-             return 'Your Foot Length Add by"{}"'.format(difference)
+             return 'First Metatarsel Length Add by"{}"'.format(difference)
         if float(dropdown_value) > upperBound:
             difference = upperBound - float(dropdown_value)
             print("data is higher")
-            return 'Your Foot Length Reduce by"{}"'.format(difference)
+            return 'First Metatarsel Length Reduce by"{}"'.format(difference)
     print("data is validated")
     return 'Your Measurement is Validate'
 
@@ -178,11 +166,11 @@ def callback_b(dropdown_value):
              difference = lowerBound - float(dropdown_value)
              print("data is lower")
              print(difference)
-             return 'Your Foot Length Add by"{}"'.format(difference)
+             return 'Fifth Metatarsel Length Add by"{}"'.format(difference)
         if float(dropdown_value) > upperBound:
             difference = upperBound - float(dropdown_value)
             print("data is higher")
-            return 'Your Foot Length Reduce by"{}"'.format(difference)
+            return 'Fifth Metatarsel Length Reduce by"{}"'.format(difference)
     print("data is validated")
     return 'Your Measurement is Validate'
 
@@ -197,11 +185,11 @@ def callback_b(dropdown_value):
              difference = lowerBound - float(dropdown_value)
              print("data is lower")
              print(difference)
-             return 'Your Foot Length Add by"{}"'.format(difference)
+             return 'Arch Height Add by"{}"'.format(difference)
         if float(dropdown_value) > upperBound:
             difference = upperBound - float(dropdown_value)
             print("data is higher")
-            return 'Your Foot Length Reduce by"{}"'.format(difference)
+            return 'Arch Height Reduce by"{}"'.format(difference)
     print("data is validated")
     return 'Your Measurement is Validate'
 
@@ -216,11 +204,11 @@ def callback_b(dropdown_value):
              difference = lowerBound - float(dropdown_value)
              print("data is lower")
              print(difference)
-             return 'Your Foot Length Add by"{}"'.format(difference)
+             return 'Foot Length Add by"{}"'.format(difference)
         if float(dropdown_value) > upperBound:
             difference = upperBound - float(dropdown_value)
             print("data is higher")
-            return 'Your Foot Length Reduce by"{}"'.format(difference)
+            return 'Foot Length Reduce by"{}"'.format(difference)
     print("data is validated")
     return 'Your Measurement is Validate'
 
