@@ -3,7 +3,8 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 
-app = dash.Dash('')
+app = dash.Dash(__name__)
+server = app.server
 
 #Create object to contain input parameters of client (Brand) foot insole parameters
 insole = {"fw":int, "rfw":int, "fml":int, "fthml":int, "ah":int, "hhfm":int, "fl":int, }
