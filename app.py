@@ -22,58 +22,58 @@ foot_parameter_key_dictionary = {"fw":"Foot Meterasel", "rfw":"Rear Foot Width",
 app.layout = html.Div([
     
     html.Div(html.H1("Foot Parameter Validator"),),
-    html.Label(" Foot Metarsel Validator  "),
+    html.Label(" ForeFoot Width Enter Data -> "),
     dcc.Input(
         id='dropdown-a',
         #options=[{'label': i, 'value': i} for i in ['Canada', 'USA', 'Mexico']],
-        value='0',
+        value='3.5',
         type ='text'),
     html.Div(id='output-a'),
     html.Div(" ------------------------------------ "),
 
-    html.Label(" Rear Foot Width  "),
+    html.Label(" Rear Foot Width Enter Data ->  "),
     dcc.Input(
         id='dropdown-b',
-        value='0',
+        value='9',
         type='text'
     ),
     html.Div(id='output-b'),
     html.Div(" ------------------------------------ "),
 
 
-    html.Label(" First Metatarsel Length  "),
+    html.Label(" First Metatarsel Length Enter Data -> "),
      dcc.Input(
         id='dropdown-c',
-        value='0',
+        value='7.25',
         type='text'
     ),
     html.Div(id='output-c'),
     html.Div(" --------------------------------------- "), 
 
-    html.Label(" Fifth Metarsel Length "),
+    html.Label(" Fifth Metarsel Length Enter Data -> "),
 
      dcc.Input(
         id='dropdown-d',
-        value='0',
+        value='7.7',
         type='text'
     ),
     html.Div(id='output-d'),
     html.Div(" --------------------------------------- "), 
 
-    html.Label(" Arch Height "),
+    html.Label(" Arch Height Enter Data ->"),
 
      dcc.Input(
         id='dropdown-e',
-        value='0',
+        value='1',
         type='text'
     ),
     html.Div(id='output-e'),
     html.Div(" --------------------------------------- "), 
 
-    html.Label(" Foot length "),
+    html.Label(" Foot length Enter Data -> "),
     dcc.Input(
         id='dropdown-f',
-        value='0',
+        value='11',
         type='text'
     ),
     html.Div(id='output-f'),
@@ -100,6 +100,8 @@ colors = ['#FEBFB3', '#E1396C', '#96D38C', '#D0F9B1']
     [dash.dependencies.Input('dropdown-a', 'value')])
 def callback_a(dropdown_value):
     #data = str(float(dropdown_value)*2)
+    upperBound = 3.958865385 + .489
+    lowerBound = 3.958865385 - .489
     difference = 0 
     print(float(dropdown_value)>5)
     if float(dropdown_value) < lowerBound or float(dropdown_value) > upperBound:
@@ -122,6 +124,8 @@ def callback_a(dropdown_value):
     [dash.dependencies.Input('dropdown-b', 'value')])
 def callback_b(dropdown_value):
     difference = 0 
+    upperBound = 2.633423077 + .157
+    lowerBound = 2.633423077 - .157
     print(float(dropdown_value)>5)
     if float(dropdown_value) < lowerBound or float(dropdown_value) > upperBound:
         if float(dropdown_value) < lowerBound:
@@ -141,6 +145,8 @@ def callback_b(dropdown_value):
     [dash.dependencies.Input('dropdown-c', 'value')])
 def callback_c(dropdown_value):
     difference = 0 
+    upperBound = 7.745750988 + .448
+    lowerBound = 7.74570988 - .488
     print(float(dropdown_value)>5)
     if float(dropdown_value) < lowerBound or float(dropdown_value) > upperBound:
         if float(dropdown_value) < lowerBound:
@@ -160,6 +166,8 @@ def callback_c(dropdown_value):
     [dash.dependencies.Input('dropdown-d', 'value')])
 def callback_b(dropdown_value):
     difference = 0 
+    upperBound = 7.254920949 + .448
+    lowerBound = 7.254920949 - .488
     print(float(dropdown_value)>5)
     if float(dropdown_value) < lowerBound or float(dropdown_value) > upperBound:
         if float(dropdown_value) < lowerBound:
@@ -180,6 +188,8 @@ def callback_b(dropdown_value):
 def callback_b(dropdown_value):
     difference = 0 
     print(float(dropdown_value)>5)
+    upperBound = 0.823829787 + .05
+    lowerBound = 0.823829787 - .05
     if float(dropdown_value) < lowerBound or float(dropdown_value) > upperBound:
         if float(dropdown_value) < lowerBound:
              difference = lowerBound - float(dropdown_value)
@@ -197,7 +207,9 @@ def callback_b(dropdown_value):
     dash.dependencies.Output('output-f', 'children'),
     [dash.dependencies.Input('dropdown-f', 'value')])
 def callback_b(dropdown_value):
-    rdifference = 0 
+    difference = 0 
+    upperBound = 11.76204819 + .05
+    lowerBound = 11.76204819 - .05
     print(float(dropdown_value)>5)
     if float(dropdown_value) < lowerBound or float(dropdown_value) > upperBound:
         if float(dropdown_value) < lowerBound:
